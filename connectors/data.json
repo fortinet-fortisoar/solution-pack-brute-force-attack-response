@@ -1,0 +1,55 @@
+[
+    {
+        "name": "splunk",
+        "label": "Splunk",
+        "category": "SIEM",
+        "description": "Splunk connector allows users to invoke search, fetch events to related search, invoke alert actions, update notables, sync splunk users to FortiSOAR etc.",
+        "publisher": null,
+        "operation_roles": {
+            "invoke_search": [],
+            "get_results": [],
+            "get_search_info": [],
+            "get_events": [],
+            "get_alert_action": [],
+            "invoke_alert_action": [],
+            "list_alerts": [],
+            "get_alert_details": [],
+            "update_splunk_notables": [],
+            "add_notable_comment": [],
+            "sync_splunk_users": [],
+            "get_all_collections": [],
+            "add_new_collection": [],
+            "get_records_in_collection": [],
+            "add_record_to_collection": [],
+            "bulk_add_record_to_collection": [],
+            "delete_record_from_collection": []
+        },
+        "configurations": [],
+        "dataImports": [],
+        "install_mode": "rpm"
+    },
+    {
+        "name": "virustotal",
+        "label": "VirusTotal",
+        "category": "Sandbox",
+        "description": "VirusTotal provides a service that analyzes suspicious files and URLs and facilitates the quick detection of viruses, worms, trojans, and all kinds of malware. This connector facilitates automated operations such as scanning and analyzing suspicious files and URLs and retrieving reports from VirusTotal for files, IP addresses, and domains.",
+        "publisher": null,
+        "operation_roles": {
+            "upload_sample": [],
+            "scan_url": [],
+            "query_ip": [],
+            "query_domain": [],
+            "query_url": [],
+            "file_reputation": [],
+            "analysis_file": [],
+            "custom_endpoint": [],
+            "get_output_schema_ip": [],
+            "get_output_schema_domain": [],
+            "get_output_schema_url": [],
+            "get_output_schema_file": []
+        },
+        "configurations": [],
+        "dataImports": [],
+        "install_mode": "rpm"
+    }
+]
