@@ -20,7 +20,7 @@
             "minVersion": null
         }
     ],
-    "prerequisite": "-Configure the Virustotal Connector\\n- Configure the Splunk Connector",
+    "prerequisite": "- Configure the VirusTotal Connector\n- Configure the Splunk Connector",
     "publisher": "Fortinet",
     "description": "Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.\nFew important integrations used in the solution pack are VirusTotal and Splunk.",
     "help": "https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/blob/develop/README.md",
