@@ -51,7 +51,6 @@
                         "description": "<p>Suspicious Login Failures on asset marketing.server.1 from 43.225.46.25&nbsp;<\/p>",
                         "targetAsset": "marketing.server.1",
                         "destinationIp": "192.168.60.172",
-                        "killChainPhase": "Reconnaissance",
                         "destinationPort": "443"
                     },
                     "preCreateMessage": "Create Repeated Login Failure Alert",
