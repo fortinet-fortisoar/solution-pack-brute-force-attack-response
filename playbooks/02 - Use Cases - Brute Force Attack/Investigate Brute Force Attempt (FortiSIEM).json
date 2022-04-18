@@ -244,7 +244,7 @@
                     "alerts": "[\"{{vars.input.records[0]['@id']}}\"]",
                     "people": [],
                     "tenant": "{{vars.input.records[0].tenant['@id']}}",
-                    "content": "<p><span style=\"font-size: 15px; color: #DE7A13;\" class=\"fa fa-exclamation-triangle\"><\/span>&nbsp; VirusTotal Reports <strong>{{vars.source_ip}}&nbsp;<\/strong> to be&nbsp;<span style=\"background:#e31b1d; color: #fff;\" class=\"badge badge-pill badge-danger\"> Malicious<\/span>&nbsp;with an aggregated score&nbsp;of&nbsp;&nbsp;<span style=\"background:#e31b1d; color: #fff;\" class=\"badge badge-pill badge-danger\">{{vars.steps.Get_Source_IP_Reputation.data.aggregate}}<\/span><br><br><\/p>",
+                    "content": "<p><span style=\"font-size: 15px; color: #DE7A13;\" class=\"fa fa-exclamation-triangle\"><\/span>&nbsp;VirusTotal Reports <strong>{{vars.source_ip}}&nbsp;<\/strong> as  <span style=\"background:#e31b1d; color: #fff;\" class=\"badge badge-pill badge-danger\">  Malicious  <\/span><br><br><\/p>",
                     "__replace": "",
                     "isImportant": false,
                     "peopleUpdated": false
