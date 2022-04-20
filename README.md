@@ -52,9 +52,21 @@ Goto generated alert and observe the following:
 ## Contents
 1. Global Variable(s)
     - Demo_mode
+
 2. Record Set(s)
-    - Scenario: 
-3. Playbook Collection(s)
+    **SN**|**Scenario**|
+    | :- | :- |
+    |1|Brute Force Attack|
+    |2|Brute Force Attack(FortiSIEM)|
+    
+3. Connector(s)
+    **SN**|**Connector Name**|
+    | :- | :- |
+    |1|VirusTotal|
+    |2|Splunk|  
+
+    **Warning:** After deployment, this Solution Pack installs or upgrades the stated list of connectors.
+4. Playbook Collection(s)
     - 02 - Use Case - Brute Force Attack (3): 
     
     **SN**|**Playbook Name**|**Description**|
@@ -62,3 +74,5 @@ Goto generated alert and observe the following:
     |1|Investigate Brute Force Attempt|Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack|
     |2|Investigate Brute Force Attempt (FortiSIEM)|Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack|
     |5|Generate > FortiSIEM (Brute Force Attack)|Playbook will generate a demo record - Brute Force Attack|
+
+    **Warning:** It is recommended to clone these Playbooks before any customizations to avoid loss of information while upgrading the Solution Pack.
