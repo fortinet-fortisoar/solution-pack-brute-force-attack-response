@@ -1,40 +1,4 @@
-[TOC]
-
-# Overview
-
-The scenario demonstrates the Brute Force Attacks and generates an alert for the Alert Type **Brute Force Attempts** for **Repeated Login Failure**.
-
-In such attacks, the attacker uses trial and error to guess or crack an account password, user login credentials, and encryption keys.
-
-## Version Information
-
-* Solution Pack Version: 1.0.0
-* FortiSOAR Version Tested on: 7.2.0
-* Authored By: Fortinet
-* Certified: Yes
-
-## Pre-requisite
-
-This solution pack needs the following solution packs pre-deployed:
-
-| Solution Pack         | Purpose                                  | Doc Link |
-| --------------------- | ---------------------------------------- | -------- |
-| SOAR Essentials 1.0.0 | * Required for basic modules such as alerts, incidents, and comments <br/>* Required for action playbooks          |[Click Here](https://github.com/fortinet-fortisoar/solution-pack-incident-response/blob/release/1.0.0/README.md) |
-| SOC Simulator 1.0.0 | Required for Scenario module and record | [Click Here](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/README.md) | 
-
-## Connector List
-
-None
-
-## Playbook Collections
-
-| Playbook Name | Description |
-|---------------|-------------|
-| Generate > FortiSIEM (Brute Force Attack) | Generates demo alert for the Alert Type 'Brute Force Attempts' for 'Sudden Increase in Failed Logins To A Host' for source 'FortiSIEM' |
-| Investigate Brute Force Attempt   | Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack |
-| Investigate Brute Force Attempt (FortiSIEM)   | Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of an attack.|
-
-
+# Usage Brute Force Attack Solution Pack
 # Use Case Workflow
 
 This solution pack contains two types of execution workflows
@@ -55,13 +19,13 @@ The Scenario-based workflow follows the following pattern:
 
 After the scenario workflow generates the demo alert, the use case workflow investigates it through a playbook.
 
-![Investigation playbook](screenshots/BFAR-investigation-playbook.png)
+![Investigation playbook](media/BFAR-investigation-playbook.png)
 
 The investigation playbooks follow the following pattern:
 
 1. Manual trigger of the playbook starts the investigation on 'Brute Force Attempt' alert for source 'syslog' and looks for any malicious IOC (Indicator of Compromise) related to the alert.
 
-    ![Manual Execution Trigger](screenshots/BFAR-manual-execution-trigger.png)
+    ![Manual Execution Trigger](media/BFAR-manual-execution-trigger.png)
 
 2. If it finds a malicious IOC, it updates the alert severity to critical and checks if the target system is Windows or Linux.
     * Windows:
@@ -75,7 +39,7 @@ The investigation playbooks follow the following pattern:
 
 After the scenario workflow generates the demo alert, the use case workflow investigates it through a playbook.
 
-![FortiSIEM Investigation playbook](screenshots/BFAR-FortiSIEM-investigation-playbook.png)
+![FortiSIEM Investigation playbook](media/BFAR-FortiSIEM-investigation-playbook.png)
 
 The investigation playbooks follow the following pattern:
 
