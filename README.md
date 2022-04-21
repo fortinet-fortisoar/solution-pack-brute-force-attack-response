@@ -1,4 +1,4 @@
-# solution-pack-brute-force-attack-response
+# Brute Force Attack Response Solution Pack
 
 ## Release Information
 - Solution Pack Version: 1.0.0
