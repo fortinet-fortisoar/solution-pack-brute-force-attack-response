@@ -1,0 +1,11 @@
+{
+    "@context": "\/api\/3\/contexts\/WorkflowCollection",
+    "@type": "WorkflowCollection",
+    "name": "02 - Use Case - Brute Force Attack",
+    "description": null,
+    "visible": true,
+    "image": null,
+    "uuid": "e9cc2d67-b69f-45d8-ad30-a9998c1d5874",
+    "deletedAt": null,
+    "recordTags": []
+}

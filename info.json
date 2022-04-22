@@ -20,34 +20,45 @@
             "minVersion": null
         }
     ],
-    "prerequisite": [
-        "Configure the Virustotal Connector",
-        "Configure the Splunk Connector"
-    ],
+    "prerequisite": "- Configure the VirusTotal Connector\n- Configure the Splunk Connector",
     "publisher": "Fortinet",
+    "description": "Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.\nFew important integrations used in the solution pack are VirusTotal and Splunk.",
+    "help": "https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/blob/develop/README.md",
     "category": [],
-    "certified": "true",
-    "supportInfo": "support@fortinet.com",
-    "help": "https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response",
-    "description": "Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack",
+    "supportInfo": "",
+    "iconLarge": null,
     "fsrMinCompatibility": "7.2.0",
-    "date": "2022-02-16T13:35:46+00:00",
-    "exported_from": "master.fortisoar.com",
-    "exported_by": "CS Admin",
+    "date": "2022-04-11T12:18:11+00:00",
     "contents": {
-        "modules": {
-            "scenario": {
-                "name": "Scenario",
-                "apiName": "scenario"
-            }
-        },
         "playbooks": [
             {
-                "name": "04 - Use Cases - Brute Force Attack"
+                "name": "02 - Use Case - Brute Force Attack"
             }
         ],
-        "recordSets": {
-            "scenario": 2
-        }
+        "globalVariables": [
+            {
+                "id": 16,
+                "name": "Demo_mode",
+                "value": "true",
+                "default_value": "true"
+            }
+        ],
+        "connectors": [
+            {
+                "name": "Splunk",
+                "apiName": "splunk"
+            },
+            {
+                "name": "VirusTotal",
+                "apiName": "virustotal"
+            }
+        ],
+        "recordSets": [
+            {
+                "name": "Scenario",
+                "apiName": "scenario",
+                "count": 2
+            }
+        ]
     }
 }
