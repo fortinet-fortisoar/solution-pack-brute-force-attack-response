@@ -1,5 +1,3 @@
-# Brute Force Attack Response Solution Pack
-
 ## Release Information
 
 - Solution Pack Version: 1.0.0
@@ -11,42 +9,44 @@
 
 ### Introduction
 
-*Brute Force Attack Response Solution Pack* is designed to provide a set of investigation and utility playbooks to respond to suspicious Repeated login failure.
+*Brute Force Attack Response Solution Pack* is designed to provide a set of investigation and utility playbooks to respond to suspicious Repeated login failures.
 
-Configure ingestion using Connectors such as FortiSIEM, Syslog. Ingestion process creates an alert of type 'Brute Force Attempts', and then triggers the response workflow.
+Configure ingestion using Connectors such as FortiSIEM and Syslog. The ingestion process creates an alert of type **Brute Force Attempts**, and then triggers the response workflow.
 
-Refer to Simulation Scenarion - Brute Force Attempt to experience the use case without any Ingestion configuration.
+Refer to Simulation Scenario - Brute Force Attempt to experience the use case without any Ingestion configuration.
 
 ### Usage
 
-This Solution Pack ships with following simulation scenarios. [Refer](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/docs/solution-pack-guide.md) to Simulate Scenario documentation to undersand how to Simulate and Reset Scenario.
+Refer to [Simulate Scenario documentation](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/docs/solution-pack-guide.md) to understand how to Simulate and Reset scenarios.
+
+This Solution Pack ships with the following simulation scenarios. 
 
 #### 1. Scenario - Brute Force Attempt
 
-The scenario generates a demo alert of Type 'Brute Force Attempt' from Syslog.
+This scenario generates a demo alert of Type **Brute Force Attempt** from Syslog.
 
-Goto generated alert and observe the following:
+Navigate to a generated alert and observe the following:
 
 - Alert created with Type Brute Force Attempts
 - Reported Alert contains Source and Destination IP
-- Targeted Assets details and other related source Data
+- Targeted Assets details and other related sources Data
 
 #### 2. Scenario - Brute Force Attempt (FortiSIEM)
 
-The scenario generates a demo alert of Type 'Brute Force Attempt' from FortiSIEM
+This scenario generates a demo alert of Type **Brute Force Attempt** from FortiSIEM.
 
-Goto generated alert and observe the following:
+Navigate to a generated alert and observe the following:
 
 - Alert created with Type Brute Force Attempts
 - Reported Alert contains Source and Destination IP
-- hostname details and other related source Data
+- hostname details and other related sources Data
 
-**Investigate Brute Force Attempt**:  Launch "Investigate Brute Force" and "Investigate Brute Force(FortiSIEM)"Playbook and observe various investigation activities such as
+**Investigate Brute Force Attempt**:  Launch **Investigate Brute Force** and **Investigate Brute Force(FortiSIEM)** Playbook and observe various investigation activities such as
 
 - Source IP is external or internal
 - Reputation of Source IP (using Virustotal Threat intel connector)
 - retrieve More details of Source IP from Splunk or Active Directory
-- Block IP as a part of BFA remediation Process
+- Block IP as a part of the BFA remediation Process
 
 ## Prerequisites
 
@@ -57,22 +57,23 @@ Goto generated alert and observe the following:
 
 ## Contents
 
-1. Global Variable(s)
-    - Demo_mode
-
-2. Record Set(s)
-    |**SN**|**Scenario**|
-    | :- | :- |
-    |1|Brute Force Attack|
-    |2|Brute Force Attack(FortiSIEM)|
-
-3. Connector(s)
+1. Connector(s)
     |**SN**|**Connector Name**|
     | :- | :- |
     |1|VirusTotal|
     |2|Splunk|  
 
     **Warning:** After deployment, this Solution Pack installs or upgrades the stated list of connectors.
+
+2. Global Variable(s)
+    - Demo_mode
+
+3. Record Set(s)
+    |**SN**|**Scenario**|
+    | :- | :- |
+    |1|Brute Force Attack|
+    |2|Brute Force Attack(FortiSIEM)|
+
 4. Playbook Collection(s)
     - 02 - Use Case - Brute Force Attack (3):
 

@@ -22,9 +22,6 @@ This solution pack needs the following solution packs pre-deployed:
 | SOAR Essentials 1.0.0 | * Required for basic modules such as alerts, incidents, and comments <br/>* Required for action playbooks | [Click Here](https://github.com/fortinet-fortisoar/solution-pack-incident-response/blob/release/1.0.0/README.md) |
 | SOC Simulator 1.0.0   | Required for Scenario module and record  | [Click Here](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/README.md) |
 
-## Connector List
-
-None
 
 ## Playbook Collections
 
@@ -32,7 +29,7 @@ None
 | ---------------------------------------- | ---------------------------------------- |
 | Generate > FortiSIEM (Brute Force Attack) | Generates demo alert for the Alert Type 'Brute Force Attempts' for 'Sudden Increase in Failed Logins To A Host' for source 'FortiSIEM' |
 | Investigate Brute Force Attempt          | Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack |
-| Investigate Brute Force Attempt (FortiSIEM) | Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of an attack. |
+| Investigate Brute Force Attempt (FortiSIEM) | Investigates login failures from FortiSIEM and identifies other impacted assets that have been victims of the brute force attempts from a particular source of an attack. |
 
 
 # Use Case Workflow
@@ -49,7 +46,7 @@ The scenario demonstrates and generates a demo alert for the Alert Type **Brute 
 The Scenario-based workflow follows the following pattern:
 1. Go to the **Simulations** menu in Navigation and choose Device **Brute Force Attempt** and **Brute Force Attempt (FortiSIEM)**.
 2. Click on the **Run Scenario** button to create demo records for the scenario.
-3. The created Alerts records IRI will be displayed in the Scenario record.
+3. The created Alerts records IRI appear in the Scenario record.
 
 ## Investigate Brute Force Attempts
 
@@ -59,7 +56,7 @@ After the scenario workflow generates the demo alert, the use case workflow inve
 
 The investigation playbooks follow the following pattern:
 
-1. Manual trigger of the playbook starts the investigation on 'Brute Force Attempt' alert for source 'syslog' and looks for any malicious IOC (Indicator of Compromise) related to the alert.
+1. Manual trigger of the playbook starts the investigation on **Brute Force Attempt** alert for source `syslog` and looks for any malicious IOC (Indicator of Compromise) related to the alert.
 
     ![Manual Execution Trigger](res/BFAR-manual-execution-trigger.png)
 
