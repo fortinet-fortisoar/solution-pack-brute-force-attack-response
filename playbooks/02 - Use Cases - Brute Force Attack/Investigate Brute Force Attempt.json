@@ -383,7 +383,7 @@
             "name": "Set Alert Record",
             "description": null,
             "arguments": {
-                "alertRecord": "{{vars.input.records[0] |  ternary(vars.input.records[0],vars.input.params.alerRecord)}}"
+                "alertRecord": "{%if vars.input.records[0]['@type'] != 'Alert'%}\n{{vars.input.params.alerRecord}}\n{%else%}\n{{vars.input.records[0]}}\n{%endif%}"
             },
             "status": null,
             "top": "160",
