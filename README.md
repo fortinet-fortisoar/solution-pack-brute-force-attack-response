@@ -1,6 +1,6 @@
 ## Release Information
 
-- Solution Pack Version: 1.0.0
+- Solution Pack Version: 1.0.1
 - Minimum Compatible FortiSOAR™ Version: 7.2.0
 - Authored By: Fortinet
 - Certified: No
@@ -19,7 +19,9 @@ Refer to Simulation Scenario - Brute Force Attempt to experience the use case wi
 
 Refer to [Simulate Scenario documentation](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/docs/solution-pack-guide.md) to understand how to Simulate and Reset scenarios.
 
-This Solution Pack ships with the following simulation scenarios. 
+Refer to [Simulate and Test Scenario documentation](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/docs/solution-pack-test-automation-guide.md) to understand how to Simulate and automatically test the creation of records and post creation actions for the scenario.
+
+This Solution Pack ships with the following simulation scenarios.
 
 #### 1. Scenario - Brute Force Attempt
 
@@ -82,5 +84,6 @@ Navigate to a generated alert and observe the following:
     |1|Investigate Brute Force Attempt|Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack|
     |2|Investigate Brute Force Attempt (FortiSIEM)|Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack|
     |3|Generate > FortiSIEM (Brute Force Attack)|Playbook will generate a demo record - Brute Force Attack|
+    |4|Validate BFA Investigation|Tests if the investigation of the Brute Force Attack alert is successfull|
 
      **Warning:** It is recommended to clone these Playbooks before any customizations to avoid loss of information while upgrading the Solution Pack.
