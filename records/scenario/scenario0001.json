@@ -132,7 +132,6 @@
                             "hostname": "LinEp31"
                         }
                     ],
-                    "ackSlaPostInvestigation": "Met",
                     "severityPostInvestigation": "Critical",
                     "validateInvestigationPBIRI": "\/api\/3\/workflows\/8c911ed5-4521-435e-95ef-3e01d06550b7"
                 }
