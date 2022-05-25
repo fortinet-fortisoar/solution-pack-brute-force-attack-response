@@ -11,7 +11,7 @@
                     "type": "executePlaybook",
                     "playbookIRI": "\/api\/3\/workflows\/77c44e01-4289-483b-9924-e2363aafe95e",
                     "preCreateMessage": "Creating demo record for Brute force Attempt captured in FortiSIEM ",
-                    "postCreateMessage": "",
+                    "postCreateMessage": "Demo alert record has been created for Brute force Attempt captured in FortiSIEM",
                     "waitTimeforNextStep": "0"
                 }
             ]
@@ -54,7 +54,7 @@
                         "destinationPort": "443"
                     },
                     "preCreateMessage": "Create Repeated Login Failure Alert",
-                    "postCreateMessage": "none",
+                    "postCreateMessage": "Demo alerts for Repeated Login Failure has been created.",
                     "waitTimeforNextStep": "5"
                 }
             ]
