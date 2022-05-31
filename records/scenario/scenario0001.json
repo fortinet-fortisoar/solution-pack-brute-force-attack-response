@@ -3,7 +3,7 @@
         "@type": "Scenario",
         "configuration": "Brute Force Attack",
         "title": "Brute Force Attempt (FortiSIEM)",
-        "description": "TBD",
+        "description": "This scenario demonstrates a typical Multiple Login Failure on an asset exposed to internet. \n\nObserve the following\n\n* Fields of interest  (Source IP and Destination IP) are extracted as indicators (and enriched)\n* Usecase Playbook \"Investigate Brute Force Attempt (FortiSIEM)\" to illustrate step by step response plan",
         "steps": {
             "Steps": [
                 {
@@ -24,7 +24,6 @@
         "modifyDate": 1641381072,
         "id": "1",
         "recordTags": [
-            "FortiSOAR",
             "FortiSIEM"
         ]
     },
@@ -67,7 +66,6 @@
         "modifyDate": 1645098199.351608,
         "id": "2",
         "recordTags": [
-            "FortiSOAR",
             "BFA"
         ]
     }
