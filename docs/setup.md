@@ -4,7 +4,7 @@
 # Installation
 
 1. To install a solution pack, click **Content Hub** > **Discover**.
-2. From the list of solution pack that appears, search for and select **Brute Force Attack Response**.
+2. From the list of solution packs that appears, search for and select **Brute Force Attack Response**.
 3. Click the **Brute Force Attack Response** solution pack card.
 4. Click **Install** on the bottom to begin installation.
 
@@ -12,8 +12,8 @@
 
 |Solution Pack Name|Purpose|
 | :- | :- |
-|SOAR Framework 1.0.0|Require for Incident Response modules|
-|SOC Simulator 1.0.1|Require for Scenario Module and SOC Simulator connector|
+|SOAR Framework 1.0.0|Required for Incident Response modules|
+|SOC Simulator 1.0.1|Required for Scenario Module and SOC Simulator connector|
 
 # Configuration
 
