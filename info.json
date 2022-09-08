@@ -1,6 +1,6 @@
 {
     "name": "bruteForceAttackResponse",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "solutionpack",
     "local": true,
     "label": "Brute Force Attack Response",
@@ -16,17 +16,23 @@
             "name": "socSimulator",
             "type": "solutionpack",
             "label": "SOC Simulator",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "minVersion": null
         }
     ],
-    "prerequisite": "- Configure the VirusTotal Connector\n- Configure the Splunk Connector",
+    "prerequisite": "- Configure the VirusTotal Connector\n- Configure the Splunk Connector\n- Configure the Microsoft Active Directory Connector",
     "publisher": "Fortinet",
-    "description": "Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.\nFew important integrations used in the solution pack are VirusTotal and Splunk.",
-    "help": "https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/blob/develop/README.md",
-    "category": [],
-    "supportInfo": "",
+    "certified": "true",
+    "description": "Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.\nFew important integrations used in the solution pack are VirusTotal, Microsoft Active Directory and Splunk.",
+    "help": "https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/blob/release/1.0.1/README.md",
+    "category": [
+        "Authentication"
+    ],
+    "supportInfo": "Fortinet Customer Support",
     "iconLarge": null,
+    "recordTags": [
+        "Brute Force Attack"
+    ],
     "fsrMinCompatibility": "7.2.0",
     "date": "2022-04-11T12:18:11+00:00",
     "contents": {
@@ -44,6 +50,10 @@
             }
         ],
         "connectors": [
+            {
+                "name": "Active Directory",
+                "apiName": "activedirectory"
+            },
             {
                 "name": "Splunk",
                 "apiName": "splunk"

@@ -1,4 +1,4 @@
-| [Home](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/blob/develop/README.md) |
+| [Home](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/tree/release/1.0.1/README.md) |
 |--------------------------------------------|
 
 # Usage
@@ -27,13 +27,13 @@ This scenario generates a demo alert of type **Brute Force Attempt** from the **
 
 Navigate to the demo alert and note the following:
 
-- The demo alert created is an example of a default data ingestion using the **Data Ingestion** feature- Alert created with Type Brute Force Attempts
+- The demo alert created is an example of a default data ingestion using the **Data Ingestion** feature
 - The alert is of type *Brute Force Attempts*
 - The reported alert contains the following among other related sources data:
     - Source IP address
     - Destination IP address
     - Process name
-    - hostname details
+    - Computer name (hostname) details
 
 Users can launch the following playbooks:
 - Investigate Brute Force

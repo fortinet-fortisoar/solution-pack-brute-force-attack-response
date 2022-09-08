@@ -1,5 +1,31 @@
 [
     {
+        "name": "activedirectory",
+        "label": "Active Directory",
+        "category": "Directory Service",
+        "description": "Active Directory (AD) is a directory service that Microsoft developed for Windows domain networks. You can directly query AD to retrieve information about users, groups, and computers, in an organization, by using the Lightweight Directory Access Protocol (LDAP) to directly query the AD.",
+        "publisher": null,
+        "operation_roles": {
+            "add_object": [],
+            "get_all_object_details": [],
+            "get_specific_object_details": [],
+            "update_object": [],
+            "delete_object": [],
+            "add_group_members": [],
+            "remove_group_members": [],
+            "advanced_search": [],
+            "global_search": [],
+            "enable_user_account": [],
+            "disable_user_account": [],
+            "enable_computer": [],
+            "disable_computer": [],
+            "reset_password": []
+        },
+        "configurations": [],
+        "dataImports": [],
+        "install_mode": "rpm"
+    },
+    {
         "name": "splunk",
         "label": "Splunk",
         "category": "SIEM",

@@ -3,7 +3,7 @@
         "@type": "Scenario",
         "configuration": "Brute Force Attack",
         "title": "Brute Force Attempt (FortiSIEM)",
-        "description": "TBD",
+        "description": "This scenario demonstrates a typical Multiple Login Failure on an asset exposed to internet. \n\nObserve the following\n\n* Fields of interest  (Source IP and Destination IP) are extracted as indicators (and enriched)\n* Execution of the Usecase Playbook \"Investigate Brute Force Attempt (FortiSIEM)\" to illustrate step by step response plan",
         "steps": {
             "Steps": [
                 {
@@ -11,7 +11,7 @@
                     "type": "executePlaybook",
                     "playbookIRI": "\/api\/3\/workflows\/77c44e01-4289-483b-9924-e2363aafe95e",
                     "preCreateMessage": "Creating demo record for Brute force Attempt captured in FortiSIEM ",
-                    "postCreateMessage": "",
+                    "postCreateMessage": "Demo alert record has been created for Brute force Attempt captured in FortiSIEM",
                     "waitTimeforNextStep": "0"
                 }
             ]
@@ -24,7 +24,6 @@
         "modifyDate": 1641381072,
         "id": "1",
         "recordTags": [
-            "FortiSOAR",
             "FortiSIEM"
         ]
     },
@@ -54,7 +53,7 @@
                         "destinationPort": "443"
                     },
                     "preCreateMessage": "Create Repeated Login Failure Alert",
-                    "postCreateMessage": "none",
+                    "postCreateMessage": "Demo alerts for Repeated Login Failure has been created.",
                     "waitTimeforNextStep": "5"
                 }
             ]
@@ -67,7 +66,6 @@
         "modifyDate": 1645098199.351608,
         "id": "2",
         "recordTags": [
-            "FortiSOAR",
             "BFA"
         ]
     }
