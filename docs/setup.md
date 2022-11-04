@@ -1,5 +1,5 @@
-| [Home](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/tree/release/1.0.1/README.md) |
-|--------------------------------------------|
+| [Home](../README.md) | 
+|----------------------| 
 
 # Installation
 
