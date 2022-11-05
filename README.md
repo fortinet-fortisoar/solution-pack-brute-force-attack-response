@@ -1,10 +1,10 @@
 # Release Information
 
-* **Version**:  1.0.1
+* **Version**:  1.1.0
 * **Certified**: Yes
 * **Publisher**: Fortinet
 * **Compatible Version**: FortiSOAR v7.2.0 and above
-* [Release Notes](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/blob/release/1.0.1/release_notes.md)
+* [Release Notes](./release_notes.md)
 
 # Overview
 
@@ -19,5 +19,5 @@ The use-case deals with a typical *Multiple Login Failure* on an asset exposed t
 
 # Next Steps
 
-| [Installation](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/tree/release/1.0.1/docs/setup.md#installation) | [Configuration](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/tree/release/1.0.1/docs/setup.md#configuration) | [Usage](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/tree/release/1.0.1/docs/usage.md) | [Contents](https://github.com/fortinet-fortisoar/solution-pack-brute-force-attack-response/tree/release/1.0.1/docs/contents.md) |
+| [Installation](./docs/setup.md#installation) | [Configuration](./docs/setup.md#configuration) | [Usage](./docs/usage.md) | [Contents](./docs/contents.md) |
 |--------------------------------------------|----------------------------------------------|------------------------|------------------------------|
