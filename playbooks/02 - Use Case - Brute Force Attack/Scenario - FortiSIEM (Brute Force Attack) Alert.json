@@ -1,10 +1,10 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Generate > FortiSIEM (Brute Force Attack)",
+    "name": "Scenario - FortiSIEM (Brute Force Attack) Alert",
     "aliasName": null,
     "tag": null,
-    "description": "Playbook will generate a demo record - Brute Force Attack",
+    "description": "Generates a demo alert for Brute Force Attack from FortiSIEM.",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,
@@ -180,5 +180,7 @@
     "owners": [],
     "isPrivate": false,
     "deletedAt": null,
-    "recordTags": []
+    "recordTags": [
+        "Scenario"
+    ]
 }
