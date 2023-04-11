@@ -32,6 +32,6 @@
 | :- | :- |
 |Investigate Brute Force Attempt|Investigates login failures and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack|
 |Investigate Brute Force Attempt (FortiSIEM)|Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack|
-|Generate > FortiSIEM (Brute Force Attack)|Playbook will generate a demo record - Brute Force Attack|
+|Scenario - FortiSIEM (Brute Force Attack) Alert<sup>Renamed</sup>|Generates a demo alert for Brute Force Attack|
 
 >**WARNING:** It is recommended to clone these playbooks before making any customizations to avoid loss of information while upgrading the solution pack.
