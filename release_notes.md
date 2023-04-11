@@ -1,4 +1,5 @@
-# Fix Details
+# What Fixed
 
-- Modified the **Investigate Brute Force Attempt (FortiSIEM)** and the **Investigate Brute Force Attempt** playbooks
-    - Updated the Jinja expression to check reputation of an IP address with the latest VirusTotal Connector &mdash; v2.0.0 and later
+
+- Renamed scenario playbook from "Generate > FortiSIEM (Brute Force Attack)" to "Scenario - FortiSIEM (Brute Force Attack) Alert"
+- Made correction in the `Brute Force Attempt` scenario to avoid creating erroneous alert data which was creating an indicator unrelated to the alert
