@@ -1,5 +1,12 @@
-# What Fixed
+| [Home](../README.md) | 
+|----------------------| 
 
+# What's New
 
-- Renamed scenario playbook from "Generate > FortiSIEM (Brute Force Attack)" to "Scenario - FortiSIEM (Brute Force Attack) Alert"
-- Made correction in the `Brute Force Attempt` scenario to avoid creating erroneous alert data which was creating an indicator unrelated to the alert
+## Enhancements
+
+- The scenario playbook **Generate > FortiSIEM (Brute Force Attack)** is now renamed to **Scenario - FortiSIEM (Brute Force Attack) Alert**
+
+## Fixes
+
+- The scenario **Brute Force Attempt** now correctly generates indicators related to example alerts

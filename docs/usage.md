@@ -46,3 +46,6 @@ These playbooks perform the following automated tasks:
     - Gets the reputation of the source IP address using VirusTotal connector
     - Retrieves additional details about source IP from Splunk or Active Directory
     - Block the IP address as part of the Brute Force Attack remediation process
+
+| [Installation](./docs/setup.md#installation) | [Configuration](./docs/setup.md#configuration) | [Contents](./docs/contents.md) |
+|----------------------------------------------|------------------------------------------------|--------------------------------|
