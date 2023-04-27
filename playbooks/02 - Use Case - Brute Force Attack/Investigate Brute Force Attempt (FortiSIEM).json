@@ -34,6 +34,7 @@
                         "itemValue": "Comment",
                         "orderIndex": 1
                     },
+                    "alerts": "[\"{{vars.input.records[0]['@id']}}\"]",
                     "people": [],
                     "tenant": "{{vars.input.records[0].tenant['@id']}}",
                     "content": "<span style=\"font-size: 15px; color: #DE7A13;\" class=\"fa fa-exclamation-triangle\"><\/span>&nbsp;Approval to block IP Address  {{vars.input.records[0].sourceIp}} was <span style=\"background:#f5b505; color: red\" class=\"badge badge-square badge-danger\">denied.<\/span> ",
@@ -406,6 +407,8 @@
                 },
                 "apply_async": false,
                 "step_variables": [],
+                "pass_parent_env": false,
+                "pass_input_record": true,
                 "workflowReference": "\/api\/3\/workflows\/79ebfed2-86ee-404d-b69c-02a448e1144d"
             },
             "status": null,
