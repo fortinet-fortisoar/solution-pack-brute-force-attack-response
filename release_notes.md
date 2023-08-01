@@ -1,6 +1,3 @@
-| [Home](../README.md) | 
-|----------------------| 
-
 # What's New
 
 ## Enhancements

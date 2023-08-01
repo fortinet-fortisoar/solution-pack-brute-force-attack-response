@@ -26,5 +26,5 @@ For optimal performance of **Brute Force Attack Response** solution pack, you ca
 - A directory service to retrieve information about users, groups, and computers, in an organization
     - To configure and use the Active Directory connector as a directory service, refer to [Configuring Active Directory Connector](https://docs.fortinet.com/document/fortisoar/2.2.0/active-directory/154/active-directory-v2-2-0#Configuration_parameters)
 
-| [Usage](./docs/usage.md) | [Contents](./docs/contents.md) |
-|--------------------------|--------------------------------|
+| [Usage](./usage.md) | [Contents](./contents.md) |
+|---------------------|---------------------------|
