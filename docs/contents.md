@@ -39,5 +39,5 @@
 
 >**WARNING:** It is recommended to clone these playbooks before making any customizations to avoid loss of information while upgrading the solution pack.
 
-| [Installation](./docs/setup.md#installation) | [Configuration](./docs/setup.md#configuration) | [Usage](./docs/usage.md) |
-|----------------------------------------------|------------------------------------------------|--------------------------|
+| [Installation](./setup.md#installation) | [Configuration](./setup.md#configuration) | [Usage](./usage.md) |
+|-----------------------------------------|-------------------------------------------|---------------------|
