@@ -17,20 +17,6 @@
     "steps": [
         {
             "@type": "WorkflowStep",
-            "name": "Start",
-            "description": null,
-            "arguments": {
-                "step_variables": []
-            },
-            "status": null,
-            "top": "40",
-            "left": "40",
-            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
-            "group": null,
-            "uuid": "22aa0ba9-a74b-455a-b108-00ca9dfe4fdf"
-        },
-        {
-            "@type": "WorkflowStep",
             "name": "Configuration",
             "description": null,
             "arguments": {
@@ -152,6 +138,20 @@
             "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
             "group": null,
             "uuid": "ef09d18c-ecf2-4ea4-9fab-779838fcde20"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "step_variables": []
+            },
+            "status": null,
+            "top": "40",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "group": null,
+            "uuid": "22aa0ba9-a74b-455a-b108-00ca9dfe4fdf"
         }
     ],
     "routes": [
@@ -162,6 +162,7 @@
             "sourceStep": "\/api\/3\/workflow_steps\/997979d8-6db1-4db0-b546-e352cebbdf05",
             "label": null,
             "isExecuted": false,
+            "group": null,
             "uuid": "67af28e3-be8f-4a39-89a5-445ed6d61d0c"
         },
         {
@@ -171,11 +172,14 @@
             "sourceStep": "\/api\/3\/workflow_steps\/22aa0ba9-a74b-455a-b108-00ca9dfe4fdf",
             "label": null,
             "isExecuted": false,
+            "group": null,
             "uuid": "4a3bb0f7-df64-4a8b-b69f-b0e7d52ac806"
         }
     ],
     "groups": [],
     "priority": null,
+    "playbookOrigin": "\/api\/3\/picklists\/b6d710a9-a8ec-41ec-8817-fe9fa062fcdd",
+    "isEditable": false,
     "uuid": "77c44e01-4289-483b-9924-e2363aafe95e",
     "owners": [],
     "isPrivate": false,
