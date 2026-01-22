@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Investigate Brute Force Attempt (FortiGuard) (Incident)",
+    "name": "Investigate Brute Force Attempt (FortiGuard Threat Intel) (Incident)",
     "aliasName": null,
     "tag": "#ManualAction",
     "description": "Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.",
@@ -667,7 +667,7 @@
             "description": null,
             "arguments": {
                 "route": "7f537724-8250-44ba-b347-a72795c9e656",
-                "title": "Investigate Brute Force (FortiGuard)",
+                "title": "Investigate Brute Force (FortiGuard Threat Intel)",
                 "resources": [
                     "incidents"
                 ],
