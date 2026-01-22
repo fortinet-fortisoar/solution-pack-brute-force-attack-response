@@ -1,0 +1,1161 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "Investigate Brute Force Attempt (FortiGuard Threat Intel) (Incident)",
+    "aliasName": null,
+    "tag": "#ManualAction",
+    "description": "Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.",
+    "isActive": true,
+    "debug": false,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [],
+    "synchronous": false,
+    "collection": "\/api\/3\/workflow_collections\/e9cc2d67-b69f-45d8-ad30-a9998c1d5874",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/8b5d1ddc-44c7-4579-8217-7b44c30bd7df",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Block External IP",
+            "description": null,
+            "arguments": {
+                "type": "DecisionBased",
+                "input": {
+                    "schema": {
+                        "title": "Proceed With Blocking Of IP",
+                        "description": "Block action recommend for - {{vars.input.records[0].sourceIp}}. Please confirm to initiate action.",
+                        "inputVariables": []
+                    }
+                },
+                "record": "{{ vars.input.records[0][\"@id\"] }}",
+                "owner_detail": {
+                    "isAssigned": false
+                },
+                "step_variables": [],
+                "response_mapping": {
+                    "options": [
+                        {
+                            "option": "Yes",
+                            "primary": true,
+                            "step_iri": "\/api\/3\/workflow_steps\/7483efd3-20f0-44ca-9393-4d935d88f776"
+                        },
+                        {
+                            "option": "No",
+                            "step_iri": "\/api\/3\/workflow_steps\/698634cb-c6b0-4678-a72d-bb602238c209"
+                        }
+                    ],
+                    "duplicateOption": false
+                }
+            },
+            "status": null,
+            "top": "480",
+            "left": "2800",
+            "stepType": "\/api\/3\/workflow_step_types\/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
+            "group": null,
+            "uuid": "b8145daa-2fd5-450d-b4bb-e35d9552cd1a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Block Indicator",
+            "description": null,
+            "arguments": {
+                "when": "{{vars.steps.Get_Indicator_Detail}}",
+                "arguments": {
+                    "inputActionReasons": "Blocking Initiated as part of BFA remediation process. Please refer Alert# {{vars.input.records[0].id}}",
+                    "inputIndicatorValue": "{{vars.steps.Get_Indicator_Detail[0].value}}",
+                    "inputIndicatorRecordIRI": "{{vars.steps.Get_Indicator_Detail[0]['@id']}}"
+                },
+                "apply_async": false,
+                "step_variables": [],
+                "pass_parent_env": false,
+                "pass_input_record": true,
+                "workflowReference": "\/api\/3\/workflows\/79ebfed2-86ee-404d-b69c-02a448e1144d"
+            },
+            "status": null,
+            "top": "560",
+            "left": "3440",
+            "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+            "group": null,
+            "uuid": "77611efb-627e-43d0-a791-10df795b0cb2"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Calculate Confidence",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "Low",
+                        "step_iri": "\/api\/3\/workflow_steps\/8aed0699-0020-4a8a-9b70-8b7d9a0f7c3a",
+                        "condition": "{{ vars.reputation_value == vars.lowReputationCondition }}",
+                        "step_name": "Create Note for Low confidence"
+                    },
+                    {
+                        "option": "No confidence",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/c3a8a24a-ad09-4df6-8e48-661ede9b8607",
+                        "step_name": "No Operation"
+                    },
+                    {
+                        "option": "Medium",
+                        "step_iri": "\/api\/3\/workflow_steps\/7b8411c7-2fe7-4e67-9aa8-068db6237931",
+                        "condition": "{{ vars.reputation_value == vars.mediumReputationCondition }}",
+                        "step_name": "Create Note for Medium confidence"
+                    },
+                    {
+                        "option": "High",
+                        "step_iri": "\/api\/3\/workflow_steps\/070b4eb6-d1ed-416b-94f5-485776a8b707",
+                        "condition": "{{ vars.reputation_value == vars.highReputationCondition }}",
+                        "step_name": "Create Note for High confidence"
+                    }
+                ],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "480",
+            "left": "1400",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": null,
+            "uuid": "6e93ddda-cb40-4b0d-83d6-3f9689c8f2df"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Check Reputation",
+            "description": null,
+            "arguments": {
+                "reputation_value": "{%- set ti_conf = (\n    (vars.steps.Get_Threat_Intel_Reputation | default({}))\n    .get('data', {})\n    .get('confidence', '')\n) | trim -%}\n\n{%- set rep_conf = (\n    (vars.steps.Get_Reputation | default({}))\n    .get('data', {})\n    .get('data', [])\n    | first\n    | default({})\n).get('values', {})\n .get('threatinfo', {})\n .get('confidence', '') | trim -%}\n\n{%- set conf = ti_conf if ti_conf | lower in ['high','medium','low']\n    else rep_conf if rep_conf | lower in ['high','medium','low']\n    else '' -%}\n\n{{- conf | lower if conf else '' -}}"
+            },
+            "status": null,
+            "top": "580",
+            "left": "1060",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "b4e8e713-d436-4ca6-a3c7-66448aa7ac27"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Confidence Configuration",
+            "description": null,
+            "arguments": {
+                "lowReputationCondition": "low",
+                "highReputationCondition": "high",
+                "mediumReputationCondition": "medium"
+            },
+            "status": null,
+            "top": "700",
+            "left": "1060",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "a6c05c30-5774-463c-9141-1ea5817213d8"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Configuration",
+            "description": null,
+            "arguments": {
+                "host_list": "[]",
+                "host_name": "{{vars.input.records[0].affectedHost}}",
+                "source_ip": "{{vars.input.records[0].sourceIP}}",
+                "incident_id": "{{vars.input.records[0]['@id']}}",
+                "useMockOutput": "{{globalVars.Demo_mode}}",
+                "destination_ip": "{{vars.input.records[0].destinationIP}}",
+                "internal_cidr_ranges": "193.200.225.0\/24",
+                "reputation_threshold": "4"
+            },
+            "status": null,
+            "top": "120",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "94439db7-2c14-4b79-9dab-7a41cce71bde"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for External IP",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p><span class=\"fa fa-exclamation-triangle\" style=\"font-size: 15px; color: #DE7A13;\"><\/span>&nbsp;Source IP<strong> {{vars.source_ip}}<\/strong>&nbsp;is&nbsp;<span class=\"badge badge-pill badge-danger\" style=\"background:#e31b1d; color: #fff;\">External<\/span><\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "320",
+            "left": "700",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "8a75145a-bf8a-458c-9bbc-bf0072871f35"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for High confidence",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>For Source IP:&nbsp;<span style=\"background: #E53935; color: #fff;\" class=\"badge badge-success\">{{vars.source_ip}}<\/span> FortiGuard Threat Intel is giving response as <span style=\"background: #E53935; color: #ffffff;\" class=\"badge badge-success\">High<\/span> confidence<\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "320",
+            "left": "1800",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "070b4eb6-d1ed-416b-94f5-485776a8b707"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for Internal IP",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>Source IP: <strong>{{vars.source_ip}}<\/strong> is&nbsp;<span style=\"color: #00ff00;\"><strong>Internal and therfore benign<\/strong><\/span><\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "160",
+            "left": "700",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "87947013-f6ce-466f-a620-864f67a6e213"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for Low confidence",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>For Source IP:&nbsp;<span class=\"badge badge-success\" style=\"background: #28B35C; color: #fff;\">{{vars.source_ip}}<\/span> FortiGuard Threat Intel is giving response as <span class=\"badge badge-success\" style=\"background: #28B35C; color: #fff;\">Low<\/span> confidence<\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "480",
+            "left": "1800",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "8aed0699-0020-4a8a-9b70-8b7d9a0f7c3a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for Malicious IP",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>&nbsp;FortiGuard Threat Intelligence Reports <strong>{{vars.source_ip}}&nbsp;<\/strong> as <span class=\"badge badge-pill badge-danger\" style=\"background: #e31b1d; color: #fff;\"> Malicious <\/span><br><br><\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "320",
+            "left": "2140",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "d921b1aa-9c98-45de-b3bd-c4ce4e908937"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for Medium confidence",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>For Source IP:&nbsp;<span style=\"background: #FFB300; color: #fff;\" class=\"badge badge-success\">{{vars.source_ip}}<\/span> FortiGuard Threat Intel is giving response as <span style=\"background: #FFB300; color: #ffffff;\" class=\"badge badge-success\">Medium<\/span> confidence<\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "620",
+            "left": "1800",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "7b8411c7-2fe7-4e67-9aa8-068db6237931"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for Safe IP",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>Source IP:  <span style=\"background:#28B35C; color: #fff;\" class=\"badge badge-success\">{{vars.source_ip}}<\/span> is found to be safe.<\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "800",
+            "left": "700",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "8ac4f9f9-9623-4403-9a67-3e77dc9c9e1a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note for Suspicious IP",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "people": [],
+                    "content": "<p>&nbsp;FortiGuard Threat Intelligence Reports <strong>{{vars.source_ip}}&nbsp;<\/strong> as <span style=\"background: #FFB300; color: #fff;\" class=\"badge badge-pill badge-danger\"> Suspicious <\/span><br><br><\/p>",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "620",
+            "left": "2140",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "a1454dbd-6fa6-4690-87d2-a02edcb2f4d0"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Note Not Blocking IP",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "alerts": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "people": [],
+                    "content": "<span class=\"fa fa-exclamation-triangle\" style=\"font-size: 15px; color: #DE7A13;\"><\/span>&nbsp;Approval to block IP Address  {{vars.input.records[0].sourceIp}} was <span class=\"badge badge-square badge-danger\" style=\"background:#f5b505; color: red\">denied.<\/span> ",
+                    "__replace": "",
+                    "incidents": "[\"{{vars.input.records[0]['@id']}}\"]",
+                    "isImportant": false,
+                    "peopleUpdated": false
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/comments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "400",
+            "left": "3120",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "698634cb-c6b0-4678-a72d-bb602238c209"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get Indicator Detail",
+            "description": null,
+            "arguments": {
+                "query": {
+                    "sort": [],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": [
+                        {
+                            "type": "primitive",
+                            "field": "incidents.id",
+                            "value": "{{vars.input.records[0].id}}",
+                            "operator": "eq",
+                            "_operator": "eq"
+                        },
+                        {
+                            "type": "primitive",
+                            "field": "value",
+                            "value": "{{vars.input.records[0].sourceIP}}",
+                            "operator": "eq",
+                            "_operator": "eq"
+                        }
+                    ],
+                    "__selectFields": [
+                        "typeofindicator",
+                        "value"
+                    ]
+                },
+                "module": "indicators?$limit=30",
+                "checkboxFields": true,
+                "step_variables": []
+            },
+            "status": null,
+            "top": "560",
+            "left": "3120",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928770",
+            "group": null,
+            "uuid": "7483efd3-20f0-44ca-9393-4d935d88f776"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get Reputation",
+            "description": null,
+            "arguments": {
+                "name": "Fortinet FortiGuard Threat Intelligence",
+                "config": "e02562a9-a719-4081-ac83-3dfebbb66422",
+                "params": {
+                    "indicators": "{{vars.source_ip}}"
+                },
+                "version": "3.5.0",
+                "connector": "fortinet-fortiguard-threat-intelligence",
+                "operation": "ioc_search",
+                "operationTitle": "IOC Search",
+                "pickFromTenant": false,
+                "step_variables": {
+                    "is_ioc_found": "{% if vars.result.data['data'][0]['values']['threatinfo']['confidence'] is defined %}true{% else %}false{% endif %}"
+                }
+            },
+            "status": null,
+            "top": "560",
+            "left": "700",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": null,
+            "uuid": "42512244-84ac-4070-8ede-217307b6ee00"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get Threat Intel Reputation",
+            "description": null,
+            "arguments": {
+                "name": "Fortinet FortiGuard Threat Intelligence",
+                "config": "e02562a9-a719-4081-ac83-3dfebbb66422",
+                "params": {
+                    "indicator": "{{vars.source_ip}}"
+                },
+                "version": "3.5.0",
+                "connector": "fortinet-fortiguard-threat-intelligence",
+                "operation": "threat_intel_search",
+                "operationTitle": "Threat Intel Search",
+                "pickFromTenant": false,
+                "step_variables": {
+                    "is_reputation_found": "{% if vars.result.data.confidence is defined %}true{% else %}false{% endif %}"
+                }
+            },
+            "status": null,
+            "top": "320",
+            "left": "1060",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": null,
+            "uuid": "e9606907-0e46-4400-8acb-6b82959cf8c9"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Is IOC Found",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "No",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/8ac4f9f9-9623-4403-9a67-3e77dc9c9e1a",
+                        "step_name": "Create Note for Safe IP"
+                    },
+                    {
+                        "option": "Yes",
+                        "step_iri": "\/api\/3\/workflow_steps\/b4e8e713-d436-4ca6-a3c7-66448aa7ac27",
+                        "condition": "{{ vars.is_ioc_found }}",
+                        "step_name": "Check Reputation"
+                    }
+                ],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "680",
+            "left": "700",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": null,
+            "uuid": "93465802-6966-42fe-ba17-e1014276a3de"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Is Source IP internal",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "Internal",
+                        "step_iri": "\/api\/3\/workflow_steps\/87947013-f6ce-466f-a620-864f67a6e213",
+                        "condition": "{{ vars.steps.Match_Source_IP_in_Internal_CIDR.data['matched_cidr_ip']  |  length > 0 }}"
+                    },
+                    {
+                        "option": "External",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/8a75145a-bf8a-458c-9bbc-bf0072871f35"
+                    }
+                ]
+            },
+            "status": null,
+            "top": "240",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": null,
+            "uuid": "01da40de-f79a-477c-9569-9c695cccd33b"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Is Threat Intel Found",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "No",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/42512244-84ac-4070-8ede-217307b6ee00",
+                        "step_name": "Get Reputation"
+                    },
+                    {
+                        "option": "Yes",
+                        "step_iri": "\/api\/3\/workflow_steps\/b4e8e713-d436-4ca6-a3c7-66448aa7ac27",
+                        "condition": "{{ vars.is_reputation_found }}",
+                        "step_name": "Check Reputation"
+                    }
+                ],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "440",
+            "left": "1060",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": null,
+            "uuid": "58000c7e-b82a-4419-92d2-9c6e541713dd"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Match Source IP in Internal CIDR",
+            "description": null,
+            "arguments": {
+                "name": "CyOps Utilities",
+                "params": {
+                    "cidr": "{{vars.internal_cidr_ranges}}",
+                    "ip_address": "{{vars.source_ip}}"
+                },
+                "version": "2.1.0",
+                "connector": "cyops_utilities",
+                "operation": "ip_cidr_check",
+                "operationTitle": "Utils: Is IP in CIDR",
+                "step_variables": [],
+                "operationOutput": {
+                    "matched_ips": [],
+                    "unmatched_ips": []
+                }
+            },
+            "status": null,
+            "top": "120",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": null,
+            "uuid": "a74cede7-d9c5-48d7-b1c3-15c9fdf1a9e1"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "No Operation",
+            "description": null,
+            "arguments": {
+                "params": [],
+                "version": "3.7.0",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "620",
+            "left": "1400",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": null,
+            "uuid": "c3a8a24a-ad09-4df6-8e48-661ede9b8607"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "route": "7f537724-8250-44ba-b347-a72795c9e656",
+                "title": "Investigate Brute Force (FortiGuard Threat Intel)",
+                "resources": [
+                    "incidents"
+                ],
+                "__triggerLimit": true,
+                "inputVariables": [],
+                "step_variables": {
+                    "input": {
+                        "params": [],
+                        "records": "{{vars.input.records}}"
+                    }
+                },
+                "_promptexpanded": true,
+                "triggerOnSource": true,
+                "displayConditions": {
+                    "alerts": {
+                        "sort": [],
+                        "limit": 30,
+                        "logic": "AND",
+                        "filters": [
+                            {
+                                "type": "object",
+                                "field": "type",
+                                "value": "\/api\/3\/picklists\/382183df-212d-4ce1-adae-088647cc72c3",
+                                "_value": {
+                                    "@id": "\/api\/3\/picklists\/382183df-212d-4ce1-adae-088647cc72c3",
+                                    "display": "Brute Force Attempts",
+                                    "itemValue": "Brute Force Attempts"
+                                },
+                                "operator": "eq"
+                            },
+                            {
+                                "type": "primitive",
+                                "field": "source",
+                                "value": "FortiSIEM",
+                                "operator": "eq",
+                                "_operator": "eq"
+                            }
+                        ]
+                    },
+                    "incidents": {
+                        "sort": [],
+                        "limit": 30,
+                        "logic": "AND",
+                        "filters": [
+                            {
+                                "type": "object",
+                                "field": "category",
+                                "value": "\/api\/3\/picklists\/703217da-f69a-11e7-8c3f-9a214cf093ae",
+                                "_value": {
+                                    "@id": "\/api\/3\/picklists\/703217da-f69a-11e7-8c3f-9a214cf093ae",
+                                    "display": "Brute Force Attempts",
+                                    "itemValue": "Brute Force Attempts"
+                                },
+                                "operator": "eq"
+                            }
+                        ]
+                    }
+                },
+                "executeButtonText": "Execute",
+                "noRecordExecution": false,
+                "showToasterMessage": {
+                    "visible": false,
+                    "messageVisible": true
+                },
+                "triggerOnReplicate": false,
+                "singleRecordExecution": false
+            },
+            "status": null,
+            "top": "20",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
+            "group": null,
+            "uuid": "8b5d1ddc-44c7-4579-8217-7b44c30bd7df"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start Investigation",
+            "description": null,
+            "arguments": {
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "{{vars.input.records[0].tenant['@id']}}",
+                    "content": "<p>Investigating Potential {{vars.input.records[0].category.itemValue}}, with following fields of interest: {% if vars.input.records[0].domain %}Domain: {{vars.input.records[0].domain -}}{% endif %} {% if vars.input.records[0].sourceIP %}SourceIP: {{ vars.input.records[0].sourceIP -}}{% endif %} {% if vars.input.records[0].destinationIp %}DestinationIP: {{vars.input.records[0].destinationIp -}}{% endif %} {% if vars.input.records[0].fileHash %}File Hash: {{vars.input.records[0].fileHash -}}{% endif %} {% if vars.input.records[0].computerName %}ComputerName: {{vars.input.records[0].computerName -}}{% endif %} {% if vars.input.records[0].processName %}Process: {{vars.input.records[0].processName -}}{% endif %} {% if vars.input.records[0].sourceProcess %}SourceProcess: {{vars.input.records[0].sourceProcess -}}{% endif %}<\/p>",
+                    "records": ""
+                },
+                "resource": {
+                    "phase": "\/api\/3\/picklists\/37f637f0-2e7a-41cc-a6e4-502d7263b2d0",
+                    "status": "\/api\/3\/picklists\/bb7402d6-f699-11e7-8c3f-9a214cf093ae"
+                },
+                "_showJson": false,
+                "operation": "Append",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "__recommend": [],
+                "collectionType": "\/api\/3\/incidents",
+                "fieldOperation": {
+                    "recordTags": "Append"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "240",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928722",
+            "group": null,
+            "uuid": "54e0735b-0792-4b0e-8d78-b6131620f316"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Update Record Phase",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "phase": "\/api\/3\/picklists\/cbaa92d2-6fd7-4dbe-88f6-0e0d17e8b430",
+                    "status": "\/api\/3\/picklists\/bb74042a-f699-11e7-8c3f-9a214cf093ae"
+                },
+                "operation": "Append",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "__recommend": [],
+                "collectionType": "\/api\/3\/incidents",
+                "fieldOperation": [],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "480",
+            "left": "2140",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928722",
+            "group": null,
+            "uuid": "1d55938b-2ffc-408a-8cd8-8567eb81af18"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Update Record Phase and Status",
+            "description": null,
+            "arguments": {
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<p>Incident is Resolved with required action<\/p>",
+                    "records": "{{vars.input.records[0]['@id']}}"
+                },
+                "resource": {
+                    "phase": "\/api\/3\/picklists\/bb7407e0-f699-11e7-8c3f-9a214cf093ae",
+                    "status": "\/api\/3\/picklists\/bb73fd5e-f699-11e7-8c3f-9a214cf093ae"
+                },
+                "operation": "Append",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "__recommend": [],
+                "collectionType": "\/api\/3\/incidents",
+                "fieldOperation": [],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "560",
+            "left": "3760",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928722",
+            "group": null,
+            "uuid": "159972f4-2dfa-44fb-a7a1-a2fbb32a7d5a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Update Severity to Critical",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "phase": "\/api\/3\/picklists\/cbaa92d2-6fd7-4dbe-88f6-0e0d17e8b430",
+                    "severity": "\/api\/3\/picklists\/7efa2220-39bb-44e4-961f-ac368776e3b0"
+                },
+                "_showJson": false,
+                "operation": "Overwrite",
+                "collection": "{{vars.input.records[0]['@id']}}",
+                "__recommend": [],
+                "tagsOperation": "OverwriteTags",
+                "collectionType": "\/api\/3\/incidents",
+                "fieldOperation": [],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "480",
+            "left": "2480",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928722",
+            "group": null,
+            "uuid": "e2e3e450-ed9a-4d7c-9f25-9afcefe71977"
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Block External IP -> Create Note Not Blocking IP",
+            "targetStep": "\/api\/3\/workflow_steps\/698634cb-c6b0-4678-a72d-bb602238c209",
+            "sourceStep": "\/api\/3\/workflow_steps\/b8145daa-2fd5-450d-b4bb-e35d9552cd1a",
+            "label": "No",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "828d1c4a-8c08-437b-abfb-718433a0d8e5"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Block External IP -> Get Indicator Detail",
+            "targetStep": "\/api\/3\/workflow_steps\/7483efd3-20f0-44ca-9393-4d935d88f776",
+            "sourceStep": "\/api\/3\/workflow_steps\/b8145daa-2fd5-450d-b4bb-e35d9552cd1a",
+            "label": "Yes",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "97199aad-3269-4dd1-84cc-147e57e8d283"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Block Indicator -> Update Record Phase and Status",
+            "targetStep": "\/api\/3\/workflow_steps\/159972f4-2dfa-44fb-a7a1-a2fbb32a7d5a",
+            "sourceStep": "\/api\/3\/workflow_steps\/77611efb-627e-43d0-a791-10df795b0cb2",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "6ab8b7c8-4e16-4e6c-91a7-090ce60a1713"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Calculate Confidence -> Create Note for High confidence",
+            "targetStep": "\/api\/3\/workflow_steps\/070b4eb6-d1ed-416b-94f5-485776a8b707",
+            "sourceStep": "\/api\/3\/workflow_steps\/6e93ddda-cb40-4b0d-83d6-3f9689c8f2df",
+            "label": "High",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "9e5c4750-2258-4552-a891-bad65e1683ab"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Calculate Confidence -> Create Note for Low confidence",
+            "targetStep": "\/api\/3\/workflow_steps\/8aed0699-0020-4a8a-9b70-8b7d9a0f7c3a",
+            "sourceStep": "\/api\/3\/workflow_steps\/6e93ddda-cb40-4b0d-83d6-3f9689c8f2df",
+            "label": "Low",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "78c27b41-3fed-4675-a34e-82656c6c8826"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Calculate Confidence -> Create Note for Medium confidence",
+            "targetStep": "\/api\/3\/workflow_steps\/7b8411c7-2fe7-4e67-9aa8-068db6237931",
+            "sourceStep": "\/api\/3\/workflow_steps\/6e93ddda-cb40-4b0d-83d6-3f9689c8f2df",
+            "label": "Medium",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "7222887a-b742-4807-a042-250de81513fe"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Calculate Confidence -> NoOP",
+            "targetStep": "\/api\/3\/workflow_steps\/c3a8a24a-ad09-4df6-8e48-661ede9b8607",
+            "sourceStep": "\/api\/3\/workflow_steps\/6e93ddda-cb40-4b0d-83d6-3f9689c8f2df",
+            "label": "No confidence",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "372bcd68-5b6f-4938-9547-6ddb48ebd147"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Check Reputation -> Confidence Configuration",
+            "targetStep": "\/api\/3\/workflow_steps\/a6c05c30-5774-463c-9141-1ea5817213d8",
+            "sourceStep": "\/api\/3\/workflow_steps\/b4e8e713-d436-4ca6-a3c7-66448aa7ac27",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "7f0293dc-c881-4e7f-91fd-754ac9e28750"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Confidence Configuration -> Calculate Confidence",
+            "targetStep": "\/api\/3\/workflow_steps\/6e93ddda-cb40-4b0d-83d6-3f9689c8f2df",
+            "sourceStep": "\/api\/3\/workflow_steps\/a6c05c30-5774-463c-9141-1ea5817213d8",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "58d8ce36-4e32-4841-809d-33f70829aa32"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Configuration -> Start Investigation",
+            "targetStep": "\/api\/3\/workflow_steps\/54e0735b-0792-4b0e-8d78-b6131620f316",
+            "sourceStep": "\/api\/3\/workflow_steps\/94439db7-2c14-4b79-9dab-7a41cce71bde",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "493065e1-6c5c-410e-a3ce-8fc7de7244a6"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Note for External IP -> Get Threat Intel Repu",
+            "targetStep": "\/api\/3\/workflow_steps\/e9606907-0e46-4400-8acb-6b82959cf8c9",
+            "sourceStep": "\/api\/3\/workflow_steps\/8a75145a-bf8a-458c-9bbc-bf0072871f35",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "cfcdf189-19a9-41a3-8bee-5f2f3323ae15"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Note for High confidence -> Create Note for Malicious IP",
+            "targetStep": "\/api\/3\/workflow_steps\/d921b1aa-9c98-45de-b3bd-c4ce4e908937",
+            "sourceStep": "\/api\/3\/workflow_steps\/070b4eb6-d1ed-416b-94f5-485776a8b707",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "fa387647-5bd2-4c7f-9e04-3b376414877a"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Note for Low confidence -> Copy of Update Record Phase and Status",
+            "targetStep": "\/api\/3\/workflow_steps\/1d55938b-2ffc-408a-8cd8-8567eb81af18",
+            "sourceStep": "\/api\/3\/workflow_steps\/8aed0699-0020-4a8a-9b70-8b7d9a0f7c3a",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "4aae2068-89c1-42d7-ac45-8f09493244fb"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Note for Malicious IP -> Update Severity to High",
+            "targetStep": "\/api\/3\/workflow_steps\/e2e3e450-ed9a-4d7c-9f25-9afcefe71977",
+            "sourceStep": "\/api\/3\/workflow_steps\/d921b1aa-9c98-45de-b3bd-c4ce4e908937",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "b2fbd22b-e97c-4ca4-bf8c-82ef00ac6e4b"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Note for Medium confidence -> Copy of Create Note for Malicious IP",
+            "targetStep": "\/api\/3\/workflow_steps\/a1454dbd-6fa6-4690-87d2-a02edcb2f4d0",
+            "sourceStep": "\/api\/3\/workflow_steps\/7b8411c7-2fe7-4e67-9aa8-068db6237931",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "ca7b8241-2a06-4e1f-b9f3-2a83cd2cbdfb"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Note for Suspicious IP -> Update Severity to Critical",
+            "targetStep": "\/api\/3\/workflow_steps\/e2e3e450-ed9a-4d7c-9f25-9afcefe71977",
+            "sourceStep": "\/api\/3\/workflow_steps\/a1454dbd-6fa6-4690-87d2-a02edcb2f4d0",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "b7302923-571c-4ef4-aebd-b44041621c95"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get Indicator Detail -> Block Indicator",
+            "targetStep": "\/api\/3\/workflow_steps\/77611efb-627e-43d0-a791-10df795b0cb2",
+            "sourceStep": "\/api\/3\/workflow_steps\/7483efd3-20f0-44ca-9393-4d935d88f776",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "9efd951a-07f1-4a0b-a7bd-15e57bf98350"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get Reputation -> Copy of Is Threat Intel Found",
+            "targetStep": "\/api\/3\/workflow_steps\/93465802-6966-42fe-ba17-e1014276a3de",
+            "sourceStep": "\/api\/3\/workflow_steps\/42512244-84ac-4070-8ede-217307b6ee00",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "bc084ceb-34be-46a1-91ed-fda28c83e1c5"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get Threat Intel Repu -> Is IOC Found",
+            "targetStep": "\/api\/3\/workflow_steps\/58000c7e-b82a-4419-92d2-9c6e541713dd",
+            "sourceStep": "\/api\/3\/workflow_steps\/e9606907-0e46-4400-8acb-6b82959cf8c9",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "f9facf1b-8786-4f9d-af28-2c9e9b73eecd"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Is IOC Found -> Check Reputation",
+            "targetStep": "\/api\/3\/workflow_steps\/b4e8e713-d436-4ca6-a3c7-66448aa7ac27",
+            "sourceStep": "\/api\/3\/workflow_steps\/93465802-6966-42fe-ba17-e1014276a3de",
+            "label": "Yes",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "d56ebe80-38ad-4b5f-bf46-649f593d076c"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Is IOC Found -> Check Reputation",
+            "targetStep": "\/api\/3\/workflow_steps\/b4e8e713-d436-4ca6-a3c7-66448aa7ac27",
+            "sourceStep": "\/api\/3\/workflow_steps\/58000c7e-b82a-4419-92d2-9c6e541713dd",
+            "label": "Yes",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "18e8535f-535a-40b8-9d74-aba8a6061e43"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Is IOC Found -> Create Note for Safe IP",
+            "targetStep": "\/api\/3\/workflow_steps\/8ac4f9f9-9623-4403-9a67-3e77dc9c9e1a",
+            "sourceStep": "\/api\/3\/workflow_steps\/93465802-6966-42fe-ba17-e1014276a3de",
+            "label": "No",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "75256948-a53d-40f7-aa0e-43aaf80b54a1"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Is IOC Found -> Get Reputation",
+            "targetStep": "\/api\/3\/workflow_steps\/42512244-84ac-4070-8ede-217307b6ee00",
+            "sourceStep": "\/api\/3\/workflow_steps\/58000c7e-b82a-4419-92d2-9c6e541713dd",
+            "label": "No",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "e942d17f-4609-497d-9ab1-918f5e2fc35d"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Is Source IP internal -> Copy 1 of Create Note for Safe IP",
+            "targetStep": "\/api\/3\/workflow_steps\/87947013-f6ce-466f-a620-864f67a6e213",
+            "sourceStep": "\/api\/3\/workflow_steps\/01da40de-f79a-477c-9569-9c695cccd33b",
+            "label": "Internal",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "b1d9a90a-e8b0-4c23-b50c-8e3247698db5"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Is Source IP internal -> Copy  of Create Note for Internal IP",
+            "targetStep": "\/api\/3\/workflow_steps\/8a75145a-bf8a-458c-9bbc-bf0072871f35",
+            "sourceStep": "\/api\/3\/workflow_steps\/01da40de-f79a-477c-9569-9c695cccd33b",
+            "label": "External",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "bbd3e55a-560b-4744-983a-ab72ef4b18ce"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Match Source IP in Internal CIDR -> Is Source IP internal",
+            "targetStep": "\/api\/3\/workflow_steps\/01da40de-f79a-477c-9569-9c695cccd33b",
+            "sourceStep": "\/api\/3\/workflow_steps\/a74cede7-d9c5-48d7-b1c3-15c9fdf1a9e1",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "a5faddef-f9bc-49e8-87f0-f482d6492b81"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Attacker Metadata",
+            "targetStep": "\/api\/3\/workflow_steps\/94439db7-2c14-4b79-9dab-7a41cce71bde",
+            "sourceStep": "\/api\/3\/workflow_steps\/8b5d1ddc-44c7-4579-8217-7b44c30bd7df",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "7eeee53c-fc32-49c3-9445-d135f7870e0d"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start Investigation -> Match Source IP in Internal CIDR",
+            "targetStep": "\/api\/3\/workflow_steps\/a74cede7-d9c5-48d7-b1c3-15c9fdf1a9e1",
+            "sourceStep": "\/api\/3\/workflow_steps\/54e0735b-0792-4b0e-8d78-b6131620f316",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "01a02b38-2f66-4922-a7d9-4589d1ed4043"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Update Severity to Critical -> Block External IP",
+            "targetStep": "\/api\/3\/workflow_steps\/b8145daa-2fd5-450d-b4bb-e35d9552cd1a",
+            "sourceStep": "\/api\/3\/workflow_steps\/e2e3e450-ed9a-4d7c-9f25-9afcefe71977",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "376026d6-44e6-41b7-9728-2c4df18db902"
+        }
+    ],
+    "groups": [],
+    "priority": null,
+    "playbookOrigin": "\/api\/3\/picklists\/b6d710a9-a8ec-41ec-8817-fe9fa062fcdd",
+    "isEditable": false,
+    "uuid": "478cebc6-ab46-4c00-80a2-d4c6ec352f30",
+    "owners": [],
+    "isPrivate": false,
+    "deletedAt": null,
+    "recordTags": [
+        "ManualAction"
+    ]
+}
