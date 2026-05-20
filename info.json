@@ -1,6 +1,6 @@
 {
     "name": "bruteForceAttackResponse",
-    "version": "1.3.0",
+    "version": "1.4.0",
     "type": "solutionpack",
     "local": true,
     "label": "Brute Force Attack Response",
@@ -29,7 +29,7 @@
     "recordTags": [
         "Brute Force Attack"
     ],
-    "fsrMinCompatibility": "7.2.0",
+    "fsrMinCompatibility": "8.0.0",
     "date": "2022-04-11T12:18:11+00:00",
     "contents": {
         "playbooks": [
