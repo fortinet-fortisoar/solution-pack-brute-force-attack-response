@@ -24,7 +24,7 @@
                 "input": {
                     "schema": {
                         "title": "Proceed With Blocking Of IP",
-                        "description": "Block action recommend for - {{vars.input.records[0].sourceIp}}. Please confirm to initiate action.",
+                        "description": "Block action recommend for - {{vars.input.records[0].sourceIP}}. Please confirm to initiate action.",
                         "inputVariables": []
                     }
                 },
@@ -498,7 +498,7 @@
                 "operationTitle": "IOC Search",
                 "pickFromTenant": false,
                 "step_variables": {
-                    "is_ioc_found": "{% if vars.result.data['data'][0]['values']['threatinfo']['confidence'] is defined %}true{% else %}false{% endif %}"
+                    "is_ioc_found": "{% if (vars.result.data['data'][0]['values']['threatinfo']['confidence'] is defined) or (vars.result.data['data'][0]['values']['threatinfo']['risk_score'] is defined) %}true{% else %}false{% endif %}"
                 }
             },
             "status": null,

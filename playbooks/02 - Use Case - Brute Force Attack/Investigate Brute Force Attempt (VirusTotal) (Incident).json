@@ -24,7 +24,7 @@
                 "input": {
                     "schema": {
                         "title": "Proceed With Blocking Of IP",
-                        "description": "Block action recommend for - {{vars.input.records[0].sourceIp}}. Please confirm to initiate action.",
+                        "description": "Block action recommend for - {{vars.input.records[0].sourceIP}}. Please confirm to initiate action.",
                         "inputVariables": []
                     }
                 },
@@ -62,7 +62,7 @@
             "arguments": {
                 "when": "{{vars.steps.Get_Indicator_Detail}}",
                 "arguments": {
-                    "inputActionReasons": "Blocking Initiated as part of BFA remediation process. Please refer Alert# {{vars.input.records[0].id}}",
+                    "inputActionReasons": "Blocking Initiated as part of BFA remediation process. Please refer Case# {{vars.input.records[0].id}}",
                     "inputIndicatorValue": "{{vars.steps.Get_Indicator_Detail[0].value}}",
                     "inputIndicatorRecordIRI": "{{vars.steps.Get_Indicator_Detail[0]['@id']}}"
                 },
@@ -335,7 +335,7 @@
                     {
                         "option": "Malicious",
                         "step_iri": "\/api\/3\/workflow_steps\/a55e9a7d-53cd-477d-8cdd-39c634e1d821",
-                        "condition": "{{ vars.steps.Get_Source_IP_Reputation.data.attributes['last_analysis_stats'].malicious == 0 }}",
+                        "condition": "{{ vars.steps.Get_Source_IP_Reputation.data.attributes['last_analysis_stats'].malicious > 0 }}",
                         "step_name": "Create Note for Malicious IP"
                     },
                     {
