@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Investigate Brute Force Attempt (VirusTotal) (Incident)",
+    "name": "Investigate Brute Force Attempt (VirusTotal) (Case)",
     "aliasName": null,
     "tag": "#ManualAction",
     "description": "Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.",

@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Investigate Brute Force Attempt (FortiGuard Threat Intel) (Incident)",
+    "name": "Investigate Brute Force Attempt (FortiGuard Threat Intel) (Case)",
     "aliasName": null,
     "tag": "#ManualAction",
     "description": "Investigates login failures from FortiSIEM and also identifies other impacted assets that have been victims of the brute force attempts from a particular source of attack.",
@@ -808,7 +808,7 @@
                     "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                     "tenant": "",
                     "thread": false,
-                    "content": "<p>Incident is Resolved with required action<\/p>",
+                    "content": "<p>Case is Resolved with required action<\/p>",
                     "records": "{{vars.input.records[0]['@id']}}"
                 },
                 "resource": {
