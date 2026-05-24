@@ -124,7 +124,7 @@
             "name": "Check Reputation",
             "description": null,
             "arguments": {
-                "reputation_value": "{%- if vars.steps.Get_Reputation.data['data'][0]['values']['threatinfo']['risk_score'] -%}\n{%- set score = vars.steps.Get_Reputation.data['data'][0]['values']['threatinfo']['risk_score'] -%}\n{%- if score >= 91 -%}\nhigh\n{%- elif score >= 71 -%}\nmedium\n{%- elif score >= 21 -%}\nlow\n{%-endif-%}\n{%-else-%}\n\n{%- set ti_conf = (\n    (vars.steps.Get_Threat_Intel_Reputation | default({}))\n    .get('data', {})\n    .get('confidence', '')\n) | trim -%}\n\n{%- set rep_conf = (\n    (vars.steps.Get_Reputation | default({}))\n    .get('data', {})\n    .get('data', [])\n    | first\n    | default({})\n).get('values', {})\n .get('threatinfo', {})\n .get('confidence', '') | trim -%}\n\n{%- set conf = ti_conf if ti_conf | lower in ['high','medium','low']\n    else rep_conf if rep_conf | lower in ['high','medium','low']\n    else '' -%}\n\n{{- conf | lower if conf else '' -}}{%-endif-%}"
+                "reputation_value": "{%- set ti_conf = (\n    (vars.steps.Get_Threat_Intel_Reputation | default({}))\n    .get('data', {})\n    .get('confidence', '')\n) | trim -%}\n\n{%- set rep_conf = (\n    (vars.steps.Get_Reputation | default({}))\n    .get('data', {})\n    .get('data', [])\n    | first\n    | default({})\n).get('values', {})\n .get('threatinfo', {})\n .get('confidence', '') | trim -%}\n\n{%- set conf = ti_conf if ti_conf | lower in ['high','medium','low']\n    else rep_conf if rep_conf | lower in ['high','medium','low']\n    else '' -%}\n\n{{- conf | lower if conf else '' }}"
             },
             "status": null,
             "top": "580",
@@ -498,7 +498,7 @@
                 "operationTitle": "IOC Search",
                 "pickFromTenant": false,
                 "step_variables": {
-                    "is_ioc_found": "{% if (vars.result.data['data'][0]['values']['threatinfo']['confidence'] is defined) or (vars.result.data['data'][0]['values']['threatinfo']['risk_score'] is defined) %}true{% else %}false{% endif %}"
+                    "is_ioc_found": "{% if vars.result.data['data'][0]['values']['threatinfo']['confidence'] is defined %}true{% else %}false{% endif %}"
                 }
             },
             "status": null,
