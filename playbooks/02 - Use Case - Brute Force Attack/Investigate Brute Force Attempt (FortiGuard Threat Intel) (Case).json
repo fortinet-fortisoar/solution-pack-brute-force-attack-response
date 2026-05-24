@@ -124,7 +124,7 @@
             "name": "Check Reputation",
             "description": null,
             "arguments": {
-                "reputation_value": "{%- set ti_conf = (\n    (vars.steps.Get_Threat_Intel_Reputation | default({}))\n    .get('data', {})\n    .get('confidence', '')\n) | trim -%}\n\n{%- set rep_conf = (\n    (vars.steps.Get_Reputation | default({}))\n    .get('data', {})\n    .get('data', [])\n    | first\n    | default({})\n).get('values', {})\n .get('threatinfo', {})\n .get('confidence', '') | trim -%}\n\n{%- set conf = ti_conf if ti_conf | lower in ['high','medium','low']\n    else rep_conf if rep_conf | lower in ['high','medium','low']\n    else '' -%}\n\n{{- conf | lower if conf else '' }}"
+                "reputation_value": "{%- set ti_conf = (\n    (vars.steps.Get_Threat_Intel_Reputation | default({}))\n    .get('data', {})\n    .get('confidence', '')\n) | trim -%}\n\n{%- set rep_conf = (\n    (vars.steps.Get_Reputation | default({}))\n    .get('data', {})\n    .get('data', [])\n    | first\n    | default({})\n).get('values', {})\n .get('threatinfo', {})\n .get('confidence', '') | trim -%}\n\n{%- set conf = ti_conf if ti_conf | lower in ['high','medium','low']\n    else rep_conf if rep_conf | lower in ['high','medium','low']\n    else '' -%}\n\n{{- conf | lower if conf else '' -}}"
             },
             "status": null,
             "top": "580",
