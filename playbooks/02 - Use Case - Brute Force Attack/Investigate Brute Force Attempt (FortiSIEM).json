@@ -511,9 +511,9 @@
                             {
                                 "type": "primitive",
                                 "field": "source",
-                                "value": "FortiSIEM",
-                                "operator": "eq",
-                                "_operator": "eq"
+                                "value": "%FortiSIEM%",
+                                "operator": "like",
+                                "_operator": "like"
                             }
                         ]
                     }
