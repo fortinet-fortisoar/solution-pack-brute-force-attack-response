@@ -1,9 +1,6 @@
 # What's New
 
-## Enhancements
+Added the following playbooks:
 
-- The scenario playbook **Generate > FortiSIEM (Brute Force Attack)** is now renamed to **Scenario - FortiSIEM (Brute Force Attack) Alert**
-
-## Fixes
-
-- The scenario **Brute Force Attempt** now correctly generates indicators related to example alerts
+- Investigate Brute Force Attempt (VirusTotal) (Case)
+- Investigate Brute Force Attempt (FortiGuard Threat Intel) (Case)
