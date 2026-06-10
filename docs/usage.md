@@ -47,5 +47,7 @@ These playbooks perform the following automated tasks:
     - Retrieves additional details about source IP from Splunk or Active Directory
     - Block the IP address as part of the Brute Force Attack remediation process
 
+# Next Steps
+
 | [Installation](./setup.md#installation) | [Configuration](./setup.md#configuration) | [Contents](./contents.md) |
 |-----------------------------------------|-------------------------------------------|---------------------------|
