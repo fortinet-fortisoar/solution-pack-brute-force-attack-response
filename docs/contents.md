@@ -11,7 +11,10 @@
 | Splunk                     | Helps users invoke search, fetch events to related search, invoke alert actions, update notables, sync splunk users to FortiSOAR etc.                             |
 | Microsoft Active Directory | Helps directly query AD to retrieve information about users, groups, and computers, in an organization, by using the Lightweight Directory Access Protocol (LDAP) |
 
-> **WARNING:** After deployment, this Solution Pack installs or upgrades the stated list of connectors.
+> [!WARNING]
+> 
+> After deployment, this solution pack installs or upgrades the stated list of connectors.
+> 
 
 ## Global Variable
 
@@ -19,7 +22,7 @@
 |:----------------|:------------------------------------------|
 | `Demo_mode`     | Enables playbook to execute a mock output |
 
-## Record Sets
+## Scenario
 
 | Scenario                      | Description                                                                                                                               |
 |:------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------|
@@ -40,12 +43,12 @@
 | Investigate Brute Force Attempt (VirusTotal) (Case)              | This playbook performs investigation using VirusTotal threat intelligence services.                                                                                        |
 | Investigate Brute Force Attempt (FortiGuard Threat Intel) (Case) | This playbook performs investigation using FortiGuard Threat Intelligence.                                                                                                 |
 
-> [!WARNING]
+> [!WARNING] 
 > 
 > It is recommended to clone these playbooks before making any customizations to avoid loss of information while upgrading the solution pack.
 > 
 
-## Next Steps
+# Next Steps
 
 | [Installation](./setup.md#installation) | [Configuration](./setup.md#configuration) | [Usage](./usage.md) |
 |-----------------------------------------|-------------------------------------------|---------------------|

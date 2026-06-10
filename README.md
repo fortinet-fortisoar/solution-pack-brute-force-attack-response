@@ -1,10 +1,10 @@
 # Release Information
 
-* **Version**:  1.3.0
-* **Certified**: Yes
-* **Publisher**: Fortinet
-* **Compatible Version**: FortiSOAR v7.2.0 and above
-* [Release Notes](./release_notes.md)
+- **Version**:  1.4.0
+- **Certified**: Yes
+- **Publisher**: Fortinet
+- **Compatible Version**: FortiSOAR v8.0.0 and above
+- [Release Notes](./release_notes.md)
 
 # Overview
 
@@ -14,8 +14,8 @@ You can configure ingestion using connectors such as **FortiSIEM** and **Syslog*
 
 The use-case deals with a typical *Multiple Login Failure* on an asset exposed to internet.
 
-* Fields of interest (Source and Destination IP address) are extracted as indicators and enriched
-* The playbook &mdash; Investigate Brute Force Attempt &mdash; illustrates a step-by-step response plan
+- Fields of interest (Source and Destination IP address) are extracted as indicators and enriched
+- The playbook &mdash; Investigate Brute Force Attempt &mdash; illustrates a step-by-step response plan
 
 # Next Steps
 

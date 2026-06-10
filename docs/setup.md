@@ -4,7 +4,7 @@
 # Installation
 
 1. To install a solution pack, click **Content Hub** > **Discover**.
-2. From the list of solution packs that appears, search for and select **Brute Force Attack Response**.
+2. From the list of solution packs that appears, search for **Brute Force Attack Response**.
 3. Click the **Brute Force Attack Response** solution pack card.
 4. Click **Install** on the bottom to begin installation.
 
@@ -12,7 +12,7 @@
 
 | Solution Pack Name |      Version      | Purpose                                                  |
 |:-------------------|:-----------------:|:---------------------------------------------------------|
-| SOAR Framework     | v1.0.0  and later | Required for Incident Response modules                   |
+| SOAR Framework     | v4.0.0  and later | Required for Incident Response modules                   |
 | SOC Simulator      | v1.0.1  and later | Required for Scenario Module and SOC Simulator connector |
 
 # Configuration
@@ -25,6 +25,8 @@ For optimal performance of **Brute Force Attack Response** solution pack, you ca
     - To configure and use the Splunk connector for data ingestion, refer to [Configuring Splunk Connector](https://docs.fortinet.com/document/fortisoar/1.6.2/splunk/130/splunk-v1-6-2#Configure_Data_Ingestion)
 - A directory service to retrieve information about users, groups, and computers, in an organization
     - To configure and use the Active Directory connector as a directory service, refer to [Configuring Active Directory Connector](https://docs.fortinet.com/document/fortisoar/2.2.0/active-directory/154/active-directory-v2-2-0#Configuration_parameters)
+
+# Next Steps
 
 | [Usage](./usage.md) | [Contents](./contents.md) |
 |---------------------|---------------------------|
