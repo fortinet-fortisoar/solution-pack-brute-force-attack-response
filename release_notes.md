@@ -1,6 +1,6 @@
 # What's New
 
-## Enhancements
+Added the following playbooks:
 
 - *Incident* has been renamed to **Case**.
 
